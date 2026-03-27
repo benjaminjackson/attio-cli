@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
-import { parseSets } from '../src/values.ts';
+import { parseSets, resolveValues } from '../src/values.ts';
 
 test('parseSets supports empty array shorthand', () => {
   assert.deepEqual(parseSets(['tags=[]']), { tags: [] });
@@ -16,4 +16,9 @@ test('parseSets supports shorthand arrays', () => {
   assert.deepEqual(parseSets(['tags=[alpha,2,true]']), {
     tags: ['alpha', 2, true],
   });
+});
+
+test('resolveValues returns empty object for empty JSON', async () => {
+  const result = await resolveValues({ values: '{}', set: [] });
+  assert.deepEqual(result, {});
 });
